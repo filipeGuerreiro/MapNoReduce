@@ -1,0 +1,7 @@
+﻿WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+STATUS
+SUBMIT tcp://localhost:30001/W ..\..\..\ProfStuff\pl.txt ..\..\..\output\ 2 CharCountMapper ..\..\..\ProfStuff\LibMapperCharCount.dll
+WAIT 1
+STATUS
+WAIT 5
+STATUS

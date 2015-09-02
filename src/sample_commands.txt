@@ -1,0 +1,79 @@
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20001/PM tcp://localhost:30002/W tcp://localhost:30001/W
+WORKER 3 tcp://localhost:20001/PM tcp://localhost:30003/W tcp://localhost:30002/W
+WORKER 4 tcp://localhost:20001/PM tcp://localhost:30004/W tcp://localhost:30003/W
+SUBMIT tcp://localhost:30001/W ..\..\..\input.txt ..\..\..\output\ 4 Mapper ..\..\..\MapLib\bin\Debug\MapLib.dll
+
+% Test Submit
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20002/PM tcp://localhost:30002/W tcp://localhost:30001/W
+SUBMIT tcp://localhost:30001/W ..\..\..\input.txt ..\..\..\output\ 4 Mapper ..\..\..\MapLib\bin\Debug\MapLib.dll
+
+% FreezeW example
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20002/PM tcp://localhost:30002/W tcp://localhost:30001/W
+STATUS
+FREEZEW 1
+WAIT 5
+UNFREEZEW 1
+SUBMIT tcp://localhost:30001/W ..\..\..\input.txt ..\..\..\output\ 2 Mapper ..\..\..\MapLib\bin\Debug\MapLib.dll
+FREEZEW 1
+WAIT 5
+UNFREEZEW 1
+
+% FreezeC example
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20002/PM tcp://localhost:30002/W tcp://localhost:30001/W
+SUBMIT tcp://localhost:30001/W ..\..\..\input.txt ..\..\..\output\ 2 Mapper ..\..\..\MapLib\bin\Debug\MapLib.dll
+FREEZEC 1
+WAIT 5
+UNFREEZEC 1
+
+% Test example
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20002/PM tcp://localhost:30002/W tcp://localhost:30001/W
+WORKER 3 tcp://localhost:20003/PM tcp://localhost:30003/W tcp://localhost:30001/W
+SUBMIT tcp://localhost:30001/W ..\..\..\input.txt ..\..\..\output\ 4 Mapper ..\..\..\MapLib\bin\Debug\MapLib.dll
+STATUS
+
+% Slow example
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20002/PM tcp://localhost:30002/W tcp://localhost:30001/W
+STATUS
+SLOWW 1 5
+SUBMIT tcp://localhost:30001/W ..\..\..\input.txt ..\..\..\output\ 2 Mapper ..\..\..\MapLib\bin\Debug\MapLib.dll
+SLOWW 1 5
+
+% Two workers on separate PuppetMasters given 2 lines each
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20002/PM tcp://localhost:30002/W tcp://localhost:30001/W
+SUBMIT tcp://localhost:30001/W ..\..\..\input.txt ..\..\..\output\ 2 Mapper ..\..\..\MapLib\bin\Debug\MapLib.dll
+
+% Two workers on the same PuppetMaster given 2 lines each
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20001/PM tcp://localhost:30002/W tcp://localhost:30001/W
+SUBMIT tcp://localhost:30001/W ..\..\..\input.txt ..\..\..\output\ 2 Mapper ..\..\..\MapLib\bin\Debug\MapLib.dll
+
+% Two workers different PMs
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20002/PM tcp://localhost:30002/W tcp://localhost:30001/W
+SUBMIT tcp://localhost:30001/W ..\..\..\ProfStuff\pl.txt ..\..\..\output\ 152 CharCountMapper ..\..\..\ProfStuff\LibMapperCharCount.dll
+
+% Test worker failure and work reassignment
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20002/PM tcp://localhost:30002/W tcp://localhost:30001/W
+SUBMIT tcp://localhost:30001/W ..\..\..\input.txt ..\..\..\output\ 2 Mapper ..\..\..\MapLib\bin\Debug\MapLib.dll
+FREEZEW 2
+
+% Three workers with 2 trackers
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20002/PM tcp://localhost:30002/W tcp://localhost:30001/W
+WORKER 3 tcp://localhost:20003/PM tcp://localhost:30003/W tcp://localhost:30002/W
+SUBMIT tcp://localhost:30001/W ..\..\..\input.txt ..\..\..\output\ 2 Mapper ..\..\..\MapLib\bin\Debug\MapLib.dll
+
+% Multiple workers in row
+WORKER 1 tcp://localhost:20001/PM tcp://localhost:30001/W
+WORKER 2 tcp://localhost:20001/PM tcp://localhost:30002/W tcp://localhost:30001/W
+WORKER 3 tcp://localhost:20001/PM tcp://localhost:30003/W tcp://localhost:30002/W
+WORKER 4 tcp://localhost:20001/PM tcp://localhost:30004/W tcp://localhost:30003/W
+SUBMIT tcp://localhost:30001/W ..\..\..\input.txt ..\..\..\output\ 4 Mapper ..\..\..\MapLib\bin\Debug\MapLib.dll
